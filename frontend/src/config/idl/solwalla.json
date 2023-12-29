@@ -1,0 +1,592 @@
+{
+  "version": "0.1.0",
+  "name": "contracts",
+  "instructions": [
+    {
+      "name": "initialize",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "solwallaInfo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "treasury",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "treasuryDev",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "mintPrice",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "mintTile",
+      "docs": [
+        "* MINT TILE"
+      ],
+      "accounts": [
+        {
+          "name": "mintAuthority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "tileAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "metadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMetadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "masterEdition",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "solwallaInfo",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "treasury",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "treasuryDev",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "tileId",
+          "type": "u16"
+        },
+        {
+          "name": "title",
+          "type": "string"
+        },
+        {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "uri",
+          "type": "string"
+        },
+        {
+          "name": "image",
+          "type": "string"
+        },
+        {
+          "name": "link",
+          "type": "string"
+        },
+        {
+          "name": "description",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "updateTile",
+      "docs": [
+        "* UPDATE TILE"
+      ],
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "tile",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "lockAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mintAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "solwallaInfo",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "metadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMetadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "tileId",
+          "type": "u16"
+        },
+        {
+          "name": "title",
+          "type": "string"
+        },
+        {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "uri",
+          "type": "string"
+        },
+        {
+          "name": "image",
+          "type": "string"
+        },
+        {
+          "name": "link",
+          "type": "string"
+        },
+        {
+          "name": "description",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "listTile",
+      "docs": [
+        "* LIST TILE"
+      ],
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "tile",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "lockAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mintAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "solwallaInfo",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "tileId",
+          "type": "u16"
+        },
+        {
+          "name": "price",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "buyTile",
+      "docs": [
+        "* BUY TILE"
+      ],
+      "accounts": [
+        {
+          "name": "buyer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "seller",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tile",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "lockAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "solwallaInfo",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "buyerMintAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "tileId",
+          "type": "u16"
+        }
+      ]
+    },
+    {
+      "name": "unlistTile",
+      "docs": [
+        "* Unlist TILE"
+      ],
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "tile",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "lockAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mintAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "solwallaInfo",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "tileId",
+          "type": "u16"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Tile",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "mintAddress",
+            "type": "publicKey"
+          },
+          {
+            "name": "tileId",
+            "type": "u16"
+          },
+          {
+            "name": "owner",
+            "type": "publicKey"
+          },
+          {
+            "name": "sale",
+            "type": "bool"
+          },
+          {
+            "name": "price",
+            "type": "u64"
+          },
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "uri",
+            "type": "string"
+          },
+          {
+            "name": "image",
+            "type": "string"
+          },
+          {
+            "name": "link",
+            "type": "string"
+          },
+          {
+            "name": "description",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "SolwallaInfo",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "owner",
+            "type": "publicKey"
+          },
+          {
+            "name": "treasury",
+            "type": "publicKey"
+          },
+          {
+            "name": "treasuryDev",
+            "type": "publicKey"
+          },
+          {
+            "name": "mintPrice",
+            "type": "u64"
+          },
+          {
+            "name": "mintedCount",
+            "type": "u16"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "NotInitialized",
+      "msg": "Not initialized to mint"
+    },
+    {
+      "code": 6001,
+      "name": "InvalidTileId",
+      "msg": "Tile Id must less than 4000"
+    },
+    {
+      "code": 6002,
+      "name": "InvalidNftUri",
+      "msg": "Nft Uri must not be blank"
+    },
+    {
+      "code": 6003,
+      "name": "InvalidNftTitle",
+      "msg": "Nft title must not be blank"
+    },
+    {
+      "code": 6004,
+      "name": "AlreadyMintedTile",
+      "msg": "Tile is already minted"
+    },
+    {
+      "code": 6005,
+      "name": "ZeroMintPrice",
+      "msg": "Could not mint free"
+    },
+    {
+      "code": 6006,
+      "name": "InvalidTreasuryAddresses",
+      "msg": "Invalid treasury addresses"
+    },
+    {
+      "code": 6007,
+      "name": "InsufficientMintFund",
+      "msg": "Insufficient Mint Fund"
+    },
+    {
+      "code": 6008,
+      "name": "IncorrectTile",
+      "msg": "Incorrect Tile"
+    },
+    {
+      "code": 6009,
+      "name": "NotMinted",
+      "msg": "Not yet minted"
+    },
+    {
+      "code": 6010,
+      "name": "AlreadyListed",
+      "msg": "Already listed for sale"
+    },
+    {
+      "code": 6011,
+      "name": "NotYetListed",
+      "msg": "Not yet listed for sale"
+    },
+    {
+      "code": 6012,
+      "name": "IncorrectSeller",
+      "msg": "Incorrect Seller"
+    },
+    {
+      "code": 6013,
+      "name": "IncorrectBuyer",
+      "msg": "Incorrect Buyer"
+    },
+    {
+      "code": 6014,
+      "name": "IncorrectOwner",
+      "msg": "Incorrect Owner"
+    },
+    {
+      "code": 6015,
+      "name": "ZeroPrice",
+      "msg": "Zero Sale Price"
+    }
+  ],
+  "metadata": {
+    "address": "31E3WieJcKApMz9LR7FEapXZrwApxz46j6dmuHXpKMD6"
+  }
+}

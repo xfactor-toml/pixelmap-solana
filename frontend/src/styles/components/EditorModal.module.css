@@ -1,0 +1,17 @@
+.editor {
+    width: 100%;
+    max-width: 896px;
+    padding: 20px;
+    background: #152747;
+    color: #fff;
+    font-family: 'Audiowide' !important;
+}
+
+.header {
+    font-size: 24px;
+}
+
+.selector {
+    margin-top: 8px;
+    display: flex;
+}

@@ -1,0 +1,26 @@
+.wrap {
+    padding: 24px 12px;
+    min-height: 100vh;
+}
+
+.body {
+    width: 100%;
+    max-width: 1296px;
+    margin-left: auto;
+    margin-right: auto;
+    
+    padding: 12px;
+    color: white;
+    background: #152747;
+    border-radius: 10px;
+}
+
+.tiles {
+    display: flex;
+    flex-direction: column;
+}
+
+.list {
+    display: flex;
+    flex-wrap: wrap;
+}

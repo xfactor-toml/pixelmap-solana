@@ -1,0 +1,15 @@
+.toggle {
+    background: #171717;
+    color: white;
+    padding: 0 14px 0 4px;
+    border-radius: 10px;
+}
+
+.toggle > span {
+    font-family: 'ABeeZee' !important;
+}
+
+.toggle.checked {
+    background: linear-gradient(99.04deg, #1CB1FF 9.44%, #6E1FCE 119.24%, #AC42FF 222.39%);
+}
+

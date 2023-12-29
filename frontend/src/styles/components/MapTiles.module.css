@@ -1,0 +1,11 @@
+.mapTiles {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    background-color: rgba(255, 255, 255, 0.15);
+    width: 1296px;
+    height: 816px;
+    margin: auto;
+    border-radius: 8px;
+    padding: 8px
+}

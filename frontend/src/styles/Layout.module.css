@@ -1,0 +1,41 @@
+.header {
+  height: 80px;
+  width: 100%;
+  margin: auto;
+  padding: 0 8px;
+  background-color: #000;
+}
+
+.connectBtn {
+  background-color: #512da8 !important;
+  margin: 0 !important;
+  border-radius: 16px;
+  padding: 0 32px !important;
+  height: 36.5px !important;
+  line-height: 0px !important;
+  font-weight: normal !important;
+  min-width: max-content;
+}
+
+.body {
+  width: 100%;
+  background-color: #000;
+  background-image: url('../assets/images/background.png');
+  background-size: cover;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #000;
+  height: 80px;
+  width: 100%;
+  color: white;
+  font-family: 'Audiowide';
+  padding: 0 24px;
+}
+
+.footer a {
+  color: white !important;
+}

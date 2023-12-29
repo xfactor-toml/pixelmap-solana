@@ -1,0 +1,46 @@
+.tile {
+    width: 48px;
+    height: 48px;
+    cursor: pointer;
+    border:1px solid #fff;
+    background-color: transparent;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+
+    .overlay {
+        width: 48px;
+        height: 48px;
+        background: transparent;
+        border: 1px solid transparent;
+    }
+
+    &:hover {
+        .overlay {
+            background: rgba(110, 31, 206, 0.3);
+            border-color: #6E1FCE;
+        }
+    }
+}
+
+.noborder {
+    border: none;
+}
+
+.mintable {
+    .overlay {
+        background: rgba(253, 29, 29, 0.3);
+    }
+}
+
+.saleable {
+    .overlay {
+        background: rgba(34, 92, 252, 0.3);
+    }
+}
+
+.owned {
+    .overlay {
+        background: rgba(25, 251, 155, 0.3);
+    }
+}

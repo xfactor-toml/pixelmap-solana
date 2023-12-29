@@ -1,0 +1,53 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Audiowide&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=ABeeZee&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  /* background-color: #000; */
+}
+
+a {
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+button {
+  font-family: 'Audiowide' !important;
+}
+
+input {
+  font-family: 'Audiowide' !important;
+}
+
+.audiowide {
+  font-family: 'Audiowide' !important;
+}
+
+#menu-appbar .MuiPaper-root{
+  background-color: transparent;
+}
+
+#menu-appbar .MuiList-root {
+  background-color: #2c2d30;
+  color: white;
+}
+
+.MuiList-root p, li {
+  font-family: 'Audiowide' !important;
+  font-weight: normal !important;
+  font-size: 14px !important;
+}
+
+.max-w-map {
+  max-width: 1296px;
+}
