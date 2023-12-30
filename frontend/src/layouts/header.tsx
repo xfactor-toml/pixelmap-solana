@@ -88,7 +88,7 @@ const Header: FC = () => {
                     <Image src={Logo} alt='solwalla' height={64} width={64} />
                 </Box>
 
-                <Paper
+                {/* <Paper
                     component="form"
                     sx={{
                         p: 0,
@@ -109,7 +109,7 @@ const Header: FC = () => {
                         onChange={(e) => console.log(e.target.value)}
 
                     />
-                </Paper>
+                </Paper> */}
 
                 <Box sx={{ display: { xs: 'none', lg: 'flex' },  flexGrow: 1, ml: 2 }}>
                     {pages.map((page) => (
