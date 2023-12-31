@@ -111,7 +111,7 @@ const Header: FC = () => {
                     />
                 </Paper> */}
 
-                <Box sx={{ display: { xs: 'none', lg: 'flex' },  flexGrow: 1, ml: 2 }}>
+                <Box sx={{ display: { xs: 'none', lg: 'flex' }, flexGrow: 1, ml: 5 }}>
                     {pages.map((page) => (
                         <Button
                             key={page.title}
