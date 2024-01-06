@@ -8,12 +8,30 @@ import { Box, Button } from '@mui/material';
 import Discord from '../assets/images/discord.png';
 import Twitter from '../assets/images/twitter.png';
 import styles from '../styles/Layout.module.css';
+import { useAppContext } from '../context/AppContext';
+import { useState } from 'react';
+import { useEffect } from 'react';
 
 const Footer: FC = () => {
+    const [count, setCount] = useState(0);
+    const { tiles } = useAppContext();
+
+    useEffect(() => {
+        if(!tiles) return;
+        
+        let ct = 0;
+        for(const tile of tiles) {
+            if(tile?.id >= 0) {
+                ct++;
+            }
+        }
+        setCount(ct);
+    }, [tiles]);
+
     return (
         <div className={styles.footer}>
             <Box>
-                Total Minted: 1538
+                Total Minted: {count}
             </Box>
 
             <Link href='/about'>
@@ -21,10 +39,10 @@ const Footer: FC = () => {
             </Link>
 
             <Box sx={{ display: 'flex', justifyContent: 'space-between', minWidth: '100px' }}>
-                <a href='/tw' target='_blank'>
+                <a href='https://twitter.com/solwalla' target='_blank' rel='noreferrer'>
                     <Image src={Twitter} alt='twitter' />
                 </a>
-                <a href='/tw' target='_blank'>
+                <a href='https://discord.gg/qz33qyNpqR' target='_blank' rel='noreferrer'>
                     <Image src={Discord} alt='twitter' />
                 </a>
             </Box>

@@ -197,7 +197,7 @@ export default function EditorModal(
                         />
                     </div>
 
-                    <div className='flex justify-start'>
+                    <div className='flex flex-wrap justify-center'>
                         {
                             editedTiles.map((tile, index) => {
                                 if(tile.id >= 0) {

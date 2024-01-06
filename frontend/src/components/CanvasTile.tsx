@@ -7,6 +7,7 @@ import { MapTile } from '../common/MapTile';
 
 import styles from '../styles/components/MyTile.module.scss';
 import { decompressTileCode } from '../utils/ImageUtils';
+import { tileSize } from '../config';
 
 export default function CanvasTile(
     {
@@ -32,7 +33,7 @@ export default function CanvasTile(
             let hex = decompressTileCode(image);
             // console.log('hex', hex);
 
-            if (hex.length != 768) {
+            if (hex.length != 3*tileSize*tileSize) {
                 return;
             }
 
@@ -40,8 +41,8 @@ export default function CanvasTile(
 
             let index = 0;
 
-            for (let y = 0; y < 16; y++) {
-                for (let x = 0; x < 16; x++) {
+            for (let y = 0; y < tileSize; y++) {
+                for (let x = 0; x < tileSize; x++) {
                     ctx.fillStyle = `#${hex[index]}`;
                     ctx.fillRect(x, y, 1, 1);
                     index++;
@@ -69,8 +70,8 @@ export default function CanvasTile(
                     <canvas
                         ref={canvasRef}
                         className={`border bg-gray-200 img-pixel `}
-                        width={16}
-                        height={16}
+                        width={tileSize}
+                        height={tileSize}
                     />
                 ) : (
                     <div
@@ -83,7 +84,7 @@ export default function CanvasTile(
             }
             {
                 tile?.id >= 0 && (
-                    <span>Solwalla #{tile?.id}</span>
+                    <span>#{tile?.id}</span>
                 )
             }
         </div>

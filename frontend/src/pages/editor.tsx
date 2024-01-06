@@ -16,6 +16,7 @@ import { toast } from 'react-toastify';
 import { getAssociatedTokenAddressSync, TOKEN_PROGRAM_ID } from '@solana/spl-token';
 import { PublicKey } from '@solana/web3.js';
 import * as anchor from '@project-serum/anchor';
+import clsx from 'clsx';
 
 const Editor: NextPage = () => {
     const wallet = useWallet();
@@ -65,9 +66,7 @@ const Editor: NextPage = () => {
     }, [tiles]);
 
     const handleUpdate = async () => {
-        console.log(updating, wallet.publicKey);
         if(updating || !wallet.publicKey) return;
-        console.log(editedTiles);
         
         setUpdating(true);
 
@@ -99,8 +98,6 @@ const Editor: NextPage = () => {
                     }
 
                     const metadataUri = `${process.env.NEXT_PUBLIC_PINATA_GATEWAY}${metadataCid}`;
-
-                    console.log(imgUri, metadataUri);
 
                     const tilePda = findPda([
                         Buffer.from(tileId.toString()),
@@ -169,9 +166,10 @@ const Editor: NextPage = () => {
 
         setUpdating(false);
 
-        setTimeout(() => {
-            window.location.reload();
-        }, 5000)
+        // setTimeout(() => {
+        //     window.location.reload();
+        // }, 5000)
+        setOpen(false);
     };
     
     return (
@@ -234,7 +232,7 @@ const Editor: NextPage = () => {
                                 )
                             }
                         </Box>
-                        <div className={styles.list}>
+                        <div className={clsx(styles.list, 'justify-around')}>
                             {
                                 ownedTiles.map((tile, index) => 
                                     <MyTile

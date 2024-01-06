@@ -1,10 +1,11 @@
 import base91 from "node-base91";
 const pako = require("pako");
+import { tileSize } from "../config";
 
 import { IMAGE_COMPRESSED } from "../config";
 
 export function dimensionToPixels(dimension) {
-  return dimension * 16;
+  return dimension * tileSize;
 }
 
 export function componentToHex(c) {

@@ -15,6 +15,7 @@ import { shortenAddress, solscanAddress } from '../common/utils';
 import { useMediaQuery } from 'react-responsive';
 
 import clsx from 'clsx';
+import Head from 'next/head';
 
 const Leaderboard: NextPage = () => {
 
@@ -93,69 +94,74 @@ const Leaderboard: NextPage = () => {
     }
     
     return (
-        <div className='mt-4 flex flex-col justify-center items-center'>
-            <h1 className='my-4 text-white text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl audiowide'>SOLWALLA Leaderboard</h1>
-            <table className="text-white audiowide">
-                <thead>
-                    <tr className={'space-x-2'}>
-                        <th>Ranking</th>
-                        <th>Wallet Address</th>
-                        <th>Owned</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {
-                        pageRank.map((info, index) =>
-                            <tr className='mt-8' key={index}>
-                                <td className='text-left'>#{pageIndex * perPage + index + 1}</td>
-                                <td className='text-center'>
-                                    <a
-                                        className='hover:text-blue-300'
-                                        href={solscanAddress(info[0])}
-                                        target='_blank'
-                                        rel='noreferrer'
-                                    >
-                                        {
-                                            isMobile ? 
-                                                shortenAddress(info[0]) : 
-                                                info[0]
-                                        }
-                                    </a>
-                                </td>
-                                <td className='text-right'>{info[1]}</td>
-                            </tr>
-                        )
-                    }
-                </tbody>
-            </table>
-            <div className='flex justify-center mt-4 text-white'>
-                <IconButton
-                    aria-label="start"
-                    onClick={() => start()}
-                >
-                    <KeyboardDoubleArrowLeftIcon className='text-white hover:text-blue-100' />
-                </IconButton>
-                <IconButton
-                    aria-label="prev"
-                    onClick={() => prev()}
-                >
-                    <KeyboardArrowLeftIcon className='text-white hover:text-blue-100' />
-                </IconButton>
-                <span className='mt-2 mx-4'>{pageIndex + 1}</span>
-                <IconButton
-                    aria-label="next"
-                    onClick={() => next()}
-                >
-                    <KeyboardArrowRightIcon className='text-white hover:text-blue-100' />
-                </IconButton>
-                <IconButton
-                    aria-label="end"
-                    onClick={() => end()}
-                >
-                    <KeyboardDoubleArrowRightIcon className='text-white hover:text-blue-100' />
-                </IconButton>
+        <>
+            <Head>
+                <title>Leaderboard | Solwalla</title>
+            </Head>
+            <div className='mt-4 flex flex-col justify-center items-center'>
+                <h1 className='my-4 text-white text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl audiowide'>SOLWALLA Leaderboard</h1>
+                <table className="text-white audiowide">
+                    <thead>
+                        <tr className={'space-x-2'}>
+                            <th>Ranking</th>
+                            <th>Wallet Address</th>
+                            <th>Owned</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            pageRank.map((info, index) =>
+                                <tr className='mt-8' key={index}>
+                                    <td className='text-left'>#{pageIndex * perPage + index + 1}</td>
+                                    <td className='text-center'>
+                                        <a
+                                            className='hover:text-blue-300'
+                                            href={solscanAddress(info[0])}
+                                            target='_blank'
+                                            rel='noreferrer'
+                                        >
+                                            {
+                                                isMobile ? 
+                                                    shortenAddress(info[0]) : 
+                                                    info[0]
+                                            }
+                                        </a>
+                                    </td>
+                                    <td className='text-right'>{info[1]}</td>
+                                </tr>
+                            )
+                        }
+                    </tbody>
+                </table>
+                <div className='flex justify-center mt-4 text-white'>
+                    <IconButton
+                        aria-label="start"
+                        onClick={() => start()}
+                    >
+                        <KeyboardDoubleArrowLeftIcon className='text-white hover:text-blue-100' />
+                    </IconButton>
+                    <IconButton
+                        aria-label="prev"
+                        onClick={() => prev()}
+                    >
+                        <KeyboardArrowLeftIcon className='text-white hover:text-blue-100' />
+                    </IconButton>
+                    <span className='mt-2 mx-4'>{pageIndex + 1}</span>
+                    <IconButton
+                        aria-label="next"
+                        onClick={() => next()}
+                    >
+                        <KeyboardArrowRightIcon className='text-white hover:text-blue-100' />
+                    </IconButton>
+                    <IconButton
+                        aria-label="end"
+                        onClick={() => end()}
+                    >
+                        <KeyboardDoubleArrowRightIcon className='text-white hover:text-blue-100' />
+                    </IconButton>
+                </div>
             </div>
-        </div>
+        </>
     );
 };
 

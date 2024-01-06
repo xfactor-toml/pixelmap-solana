@@ -13,3 +13,4 @@ export const treasury_dev_address = process.env.NEXT_PUBLIC_TREASURY_DEV_ADDRESS
 export const secret_key = process.env.NEXT_PUBLIC_SECRET_KEY || '';
 
 export const IMAGE_COMPRESSED = 'b#';
+export const tileSize = 64;

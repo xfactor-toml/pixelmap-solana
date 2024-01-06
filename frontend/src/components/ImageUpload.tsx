@@ -43,7 +43,7 @@ export default function ImageUpload(
                             type="file"
                             accept=".png"
                             onChange={handleImg}
-                            className="border"
+                            className="border w-full"
                         />
                     </label>
                 </div>

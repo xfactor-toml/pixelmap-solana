@@ -1,3 +1,4 @@
+import { Box } from '@mui/system';
 import React, { useState, useEffect } from 'react';
 import Resizer from '../utils/ImageResizer';
 import {
@@ -5,6 +6,7 @@ import {
     rgbToHexTriplet,
     dimensionToPixels,
 } from '../utils/ImageUtils';
+import { tileSize } from '../config';
 
 type Props = {
     image: string;
@@ -70,7 +72,7 @@ export default function ImageDisplay({
                 for (let i = 0; i < cols; i++) {
                     let index = i + rowIndex * cols;
                     let arr = tileArray[index];
-                    let slice = pixelSlice.slice(i * 16, (i + 1) * 16);
+                    let slice = pixelSlice.slice(i * tileSize, (i + 1) * tileSize);
 
                     tileArray[index] = arr.concat(slice);
                 }
@@ -142,7 +144,7 @@ export default function ImageDisplay({
                     onClick={() => {
                         handleTileSelect(tileCode[grid].join(''), grid);
                     }}
-                    className="group bg-gray-900 bg-opacity-50 opacity-70 hover:opacity-100 transition duration-150"
+                    className="group border border-opacity-30 border-gray-400 bg-gray-900 bg-opacity-50 opacity-70 hover:opacity-100 transition duration-150"
                     style={{
                         width: `${100 / cols}%`,
                         height: `${100 / rows}%`,
@@ -150,7 +152,7 @@ export default function ImageDisplay({
                 >
                     {
                         editedTiles[grid]?.id >= 0 && (
-                            <span className='text-blue-400 text-xs text-bold'>#{editedTiles[grid].id}</span>
+                            <span className='text-red-500 text-xs text-bold'>#{editedTiles[grid].id}</span>
                         )
                     }
                     {
@@ -167,8 +169,8 @@ export default function ImageDisplay({
 
     return (
         <div>
-            <div className="grid grid-cols-3 justify-center items-center">
-                <div className="relative col-span-2">
+            <div className="flex flex-wrap justify-around items-center">
+                <div className="relative w-96">
                     <div
                         className="absolute inset-0 z-20 grid-background border-2 border-gray-400"
                         style={{
@@ -185,19 +187,31 @@ export default function ImageDisplay({
                         alt="Tile"
                     />
                 </div>
-                <div>
+                <div className='flex flex-col justify-center items-center'>
                     <p className="text-md text-gray-600 mb-4 font-bold text-center">
                         Actual size
                     </p>
                     <p className="text-md text-gray-600 mb-4 font-bold text-center">
                         {cols} * {rows}
                     </p>
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                        className="block w-auto h-auto mx-auto pixel-image"
+                    <Box
+                        sx={{
+                            width: 16*cols,
+                            height: 16*rows
+                        }}
+                    >
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                            className='block mx-auto pixel-image'
+                            src={resizedImage}
+                            alt="Tile"
+                        />
+                    </Box>
+                    {/* <img
+                        className='block w-auto h-auto mx-auto pixel-image'
                         src={resizedImage}
                         alt="Tile"
-                    />
+                    /> */}
                 </div>
             </div>
         </div>

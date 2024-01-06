@@ -64,7 +64,8 @@ export default function MapToggles({
         <Box
             sx={{
                 display: 'flex',
-                my: 2
+                flexWrap: 'wrap',
+                my: 1
             }}
         >
             {
@@ -72,7 +73,7 @@ export default function MapToggles({
                     <Button
                         className="bg-gray-900"
                         variant="text"
-                        sx={{ background: '#171717' }}
+                        sx={{ background: '#171717', my: 2 }}
                         onClick={() => initialize()}
                     >
                         Solwalla Initialize
@@ -95,7 +96,8 @@ export default function MapToggles({
                 }
                 label="Mintable"
                 sx={{
-                    mx: 1
+                    mx: 1,
+                    my: 1,
                 }}
             />
 
@@ -115,7 +117,8 @@ export default function MapToggles({
                 }
                 label="Owned"
                 sx={{
-                    mx: 1
+                    mx: 1,
+                    my: 1,
                 }}
             />
 
@@ -135,7 +138,8 @@ export default function MapToggles({
                 }
                 label="For Sale"
                 sx={{
-                    mx: 1
+                    mx: 1,
+                    my: 1
                 }}
             />
         </Box>

@@ -11,7 +11,7 @@ module.exports = {
             },
             {
                 protocol: 'https',
-                hostname: process.env.NEXT_PUBLIC_PINATA_GATEWAY,
+                hostname: 'aquamarine-active-toad-44.mypinata.cloud',
                 port: '',
                 pathname: '/ipfs/**',
             },

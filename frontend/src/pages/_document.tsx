@@ -18,6 +18,23 @@ export default class MyDocument extends Document {
                     <link rel="stylesheet"
                         href="https://fonts.googleapis.com/css2?family=ABeeZee&display=swap">
                     </link>
+
+                    <meta
+                        name="description"
+                        content="Solwalla"
+                    />
+
+                    <meta name="twitter:card" content="summary_large_image" />
+                    <meta name="twitter:site" content="Solwalla" />
+                    <meta name="twitter:creator" content="Solwalla Team" />
+                    <meta name="twitter:title" content="Solwalla" />
+                    <meta
+                    name="twitter:description"
+                    content="Leaderboard for Influencers on Solana"
+                    />
+                    <meta name="twitter:image" content="/static/logo.png" />
+
+                    <title>SOLWALLA</title>
                 </Head>
                 <body>
                     <Main />

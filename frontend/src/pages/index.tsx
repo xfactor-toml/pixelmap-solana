@@ -8,6 +8,7 @@ import Map from '../components/Map';
 import styles from '../styles/Home.module.css';
 import { useAppContext } from '../context/AppContext';
 import { useWallet } from '@solana/wallet-adapter-react';
+import Head from 'next/head';
 
 const Home: NextPage = () => {
     const wallet = useWallet();
@@ -16,6 +17,9 @@ const Home: NextPage = () => {
     
     return (
         <>
+            <Head>
+                <title>Dashboard | Solwalla</title>
+            </Head>
             <Map
                 tiles={tiles}
                 // setRefresh={setRefresh}

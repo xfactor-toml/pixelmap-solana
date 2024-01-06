@@ -67,11 +67,8 @@ export default function EditorModal(
                 <p className="font-medium text-sm mb-2 text-gray-600">
                     Tile size:
                 </p>
-                <p className="text-white font-bold">
-                    {col} x {row}
-                </p>
-                <p className="text-white font-bold">
-                    {col * 16}px x {row * 16}px
+                <p className="text-black">
+                    {row} x {col}
                 </p>
             </div>
             <div
