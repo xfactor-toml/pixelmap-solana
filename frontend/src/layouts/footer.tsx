@@ -21,7 +21,7 @@ const Footer: FC = () => {
         
         let ct = 0;
         for(const tile of tiles) {
-            if(tile?.id >= 0) {
+            if(tile?.id && tile?.id >= 0) {
                 ct++;
             }
         }
