@@ -11,12 +11,13 @@ import styles from '../styles/Editor.module.css';
 import MyTile from '../components/MyTile';
 import { Box, Button } from '@mui/material';
 import EditorModal from '../components/EditorModal';
-import { codeToBase64, getMetadata, SystemProgram, TOKEN_METADATA_PROGRAM_ID, uploadImage, uploadMetadata } from '../common/utils';
+import { codeToBase64, getMetadata, getMetadataJson, SystemProgram, TOKEN_METADATA_PROGRAM_ID } from '../common/utils';
 import { toast } from 'react-toastify';
 import { getAssociatedTokenAddressSync, TOKEN_PROGRAM_ID } from '@solana/spl-token';
 import { PublicKey } from '@solana/web3.js';
 import * as anchor from '@project-serum/anchor';
 import clsx from 'clsx';
+import axios from 'axios';
 
 const Editor: NextPage = () => {
     const wallet = useWallet();
@@ -73,28 +74,43 @@ const Editor: NextPage = () => {
         for(const tile of editedTiles) {
             const tileId = tile?.id!;
 
+            let imgCid = '';
+            let metadataCid = '';
+
             if(tileId >= 0) {
                 let toastId = toast.loading(`Solwalla #${tile.id} Updating...`);
 
                 try {
-                    let imgUri = '';
+                    let imgBase64;
+
                     if(tile?.code) {
-                        const imgBase64 = codeToBase64(tile.code);
-                        const imgCid = await uploadImage(imgBase64);
-
-                        if(!imgCid.length) {
-                            throw "Image Uploading Failed";
-                        }
-
-                        imgUri = `${process.env.NEXT_PUBLIC_PINATA_GATEWAY}${imgCid}`;
+                        imgBase64 = codeToBase64(tile.code);
                     } else {
-                        imgUri = tile.url
+                        imgBase64 = tile.image;
                     }
 
-                    const metadataCid = await uploadMetadata(imgUri, tile);
+                    const resForImg = await axios.post("/api/image/upload", {
+                        image: imgBase64
+                    });
+
+                    imgCid = resForImg.data;
+
+                    if(!imgCid.length) {
+                        throw "Image Uploading Failed";
+                    }
+                    
+                    const imgUri = `${process.env.NEXT_PUBLIC_PINATA_GATEWAY}${imgCid}`;
+
+                    const metadataJson = await getMetadataJson(imgUri, tile);
+
+                    const resForMetadata = await axios.post("/api/metadata/upload", {
+                        metadata: metadataJson
+                    });
+
+                    metadataCid = resForMetadata.data;
 
                     if(!metadataCid.length) {
-                        throw "Image Uploading Failed";
+                        throw "Metadata Uploading Failed";
                     }
 
                     const metadataUri = `${process.env.NEXT_PUBLIC_PINATA_GATEWAY}${metadataCid}`;
@@ -121,12 +137,12 @@ const Editor: NextPage = () => {
 
                     const tx = await program.methods.updateTile(
                         tileId,
-                        `Solwalla #${tileId}`,
-                        tile.name!,
                         metadataUri,
-                        imgUri,
-                        tile.link!,
-                        tile.description!
+                        metadataCid,
+                        imgCid,
+                        tile.name,
+                        tile.link,
+                        tile.description
                     )
                         .accounts({
                             tile: tilePda,
@@ -141,6 +157,18 @@ const Editor: NextPage = () => {
                             systemProgram: SystemProgram.programId,
                         })
                         .rpc();
+                    
+                    await axios.post("/api/tile/update", {
+                        tileId: tileId,
+                        imageCid: imgCid,
+                        metadataCid: metadataCid,
+                        nftAddress: mint.toString(),
+                        metaName: tile.name,
+                        metaLink: tile.link,
+                        metaDescription: tile.description,
+                        saleOwner: '',
+                        salePrice: 0
+                    });
 
                     toast.update(toastId, {
                         render: `Solwalla #${tile.id} Updated Successfully`,
@@ -151,6 +179,18 @@ const Editor: NextPage = () => {
                     });
                 } catch(error) {
                     console.log(error);
+
+                    if(imgCid) {
+                        await axios.post("/api/image/remove", {
+                            cid: imgCid
+                        });
+                    }
+
+                    if(metadataCid) {
+                        await axios.post("/api/metadata/remove", {
+                            cid: metadataCid
+                        });
+                    }
 
                     toast.update(toastId, {
                         render: `Solwalla #${tile.id} Updating Failed`,

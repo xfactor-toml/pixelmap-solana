@@ -4,7 +4,8 @@ import clsx from 'clsx';
 import { Dialog } from '@headlessui/react';
 import {
     Switch,
-    Button
+    Button,
+    IconButton
 } from '@mui/material';
 import FormControlLabel from '@mui/material/FormControlLabel';
 
@@ -16,6 +17,7 @@ import GridSelect from './GridSelect';
 import ImageDisplay from './ImageDisplay';
 import MyTile from './MyTile';
 import CanvasTile from './CanvasTile';
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 
 export default function EditorModal(
     {
@@ -155,7 +157,7 @@ export default function EditorModal(
             as="div"
             className={`fixed inset-0 z-10 overflow-y-auto ${hidden ? 'hidden' : ''}`}
             open={open}
-            onClose={handleClose}
+            onClose={() => {}}
         >
             <Dialog.Overlay className="fixed inset-0 bg-black opacity-60" />
 
@@ -175,6 +177,20 @@ export default function EditorModal(
                     >
                         Solwalla Editor
                     </Dialog.Title>
+                    <button className='absolute right-0 top-0'>
+                        
+                    </button>
+                    <IconButton
+                        size="large"
+                        aria-label="account of current user"
+                        aria-controls="menu-appbar"
+                        aria-haspopup="true"
+                        onClick={handleClose}
+                        color="inherit"
+                        className='absolute right-1 top-1'
+                    >
+                        <HighlightOffIcon sx={{ color: 'black' }} />
+                    </IconButton>
                     <div className="mt-2">
                         <div className="lg:flex lg:space-between space-y-4 lg:space-y-0 lg:space-x-6 relative">
                             <ImageUpload changeImage={handleImageChange} />

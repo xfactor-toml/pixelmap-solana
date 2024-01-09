@@ -121,19 +121,19 @@
           "type": "u16"
         },
         {
-          "name": "title",
-          "type": "string"
-        },
-        {
-          "name": "name",
-          "type": "string"
-        },
-        {
           "name": "uri",
           "type": "string"
         },
         {
-          "name": "image",
+          "name": "metadataCid",
+          "type": "string"
+        },
+        {
+          "name": "imageCid",
+          "type": "string"
+        },
+        {
+          "name": "name",
           "type": "string"
         },
         {
@@ -214,19 +214,19 @@
           "type": "u16"
         },
         {
-          "name": "title",
-          "type": "string"
-        },
-        {
-          "name": "name",
-          "type": "string"
-        },
-        {
           "name": "uri",
           "type": "string"
         },
         {
-          "name": "image",
+          "name": "metadataCid",
+          "type": "string"
+        },
+        {
+          "name": "imageCid",
+          "type": "string"
+        },
+        {
+          "name": "name",
           "type": "string"
         },
         {
@@ -453,15 +453,15 @@
             "type": "u64"
           },
           {
+            "name": "metadataCid",
+            "type": "string"
+          },
+          {
+            "name": "imageCid",
+            "type": "string"
+          },
+          {
             "name": "name",
-            "type": "string"
-          },
-          {
-            "name": "uri",
-            "type": "string"
-          },
-          {
-            "name": "image",
             "type": "string"
           },
           {
@@ -587,6 +587,6 @@
     }
   ],
   "metadata": {
-    "address": "31E3WieJcKApMz9LR7FEapXZrwApxz46j6dmuHXpKMD6"
+    "address": "AYZ25iEuEdapCGz4TenMLCzUhBwgdrapT66md8nT2NEz"
   }
 }

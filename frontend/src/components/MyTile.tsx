@@ -36,10 +36,9 @@ export default function MyTile(
                 onClick={(e) => {
                     selectTile();
                 }}
-                style={{
-                    backgroundImage: tile?.url ? `url(${tile.url})` : '',
-                }}
             >
+                { /*eslint-disable-next-line @next/next/no-img-element*/ }
+                <img src={tile.image} alt='' />
                 <div className={styles.overlay} />
             </button>
             {

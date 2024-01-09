@@ -74,12 +74,7 @@ export default function CanvasTile(
                         height={tileSize}
                     />
                 ) : (
-                    <div
-                        className='w-4 h-4 bg-no-repeat bg-cover'
-                        style={{
-                            backgroundImage: tile?.url ? `url(${tile.url})` : '',
-                        }}
-                    />
+                    <img className='w-16 h-16 bg-no-repeat bg-cover' src={tile.image} alt='' />
                 )
             }
             {

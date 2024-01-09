@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
 import clsx from 'clsx';
-
+import Image from 'next/image';
 import { MapTile } from '../common/MapTile';
 
 import styles from '../styles/components/Tile.module.scss';
+import TileImg from '../assets/images/tile.png';
 
 export default function Tile(
     {
@@ -33,10 +34,9 @@ export default function Tile(
             onClick={(e) => {
                 showPopover(tile.id, e.currentTarget);
             }}
-            style={{
-                backgroundImage: `url(${tile.url})`,
-            }}
         >
+            { /*eslint-disable-next-line @next/next/no-img-element*/ }
+            <img src={tile.image || TileImg.src} alt='' />
             <div className={styles.overlay} />
         </button>
     );

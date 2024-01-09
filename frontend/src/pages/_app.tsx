@@ -32,8 +32,8 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
     // You can also provide a custom RPC endpoint
     const endpoint = useMemo(() => 
         isDev 
-            ? 'https://wispy-ultra-brook.solana-devnet.quiknode.pro/0cba92ccceee7b6a4eafc8b00806a8d16cfb78a0/'
-            : 'https://attentive-weathered-sunset.solana-mainnet.quiknode.pro/ee63d643bda0fa7a6c42b636b7103f844ca50dfb/'
+            ? process.env.NEXT_PUBLIC_DEVNET_RPC!
+            : process.env.NEXT_PUBLIC_MAINNET_RPC!
         , [isDev]);
 
     const wallets = useMemo(

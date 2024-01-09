@@ -21,13 +21,14 @@ import {
     createAssociatedTokenAccountInstruction,
     createInitializeMintInstruction,
     getAssociatedTokenAddressSync,
-    getOrCreateAssociatedTokenAccount
 } from '@solana/spl-token';
 import * as anchor from '@project-serum/anchor';
-import { getMasterEdition, getMetadata, shortenAddress, solscan, solscanAddress, SystemProgram, TOKEN_METADATA_PROGRAM_ID, uploadDefaultImage, uploadMetadata } from '../common/utils';
+import { getMasterEdition, getMetadata, getMetadataJson, shortenAddress, solscan, solscanAddress, SystemProgram, TOKEN_METADATA_PROGRAM_ID } from '../common/utils';
 import { toast } from 'react-toastify';
 import { LAMPORTS_PER_SOL, PublicKey, Transaction } from '@solana/web3.js';
 import { BN } from 'bn.js';
+import { defaultBase64 } from '../config';
+import axios from 'axios';
 
 const WalletMultiButton = dynamic(
     async () => (await import('@solana/wallet-adapter-react-ui')).WalletMultiButton,
@@ -43,7 +44,7 @@ export default function TileCard(
     }
 ) {
     const wallet = useWallet();
-    const { findPda, program, initialized, solwallaPda, connection } = useAppContext();
+    const { findPda, program, initialized, solwallaPda, connection, getOwnedNfts } = useAppContext();
 
     const [actionButtonText, setActionButtonText] = useState('');
     const [mode, setMode] = useState(0);
@@ -73,7 +74,7 @@ export default function TileCard(
     }, [wallet, tile]);
 
     const handleAction = () => {
-        if(processing || !initialized || !wallet.publicKey) return;
+        if(processing || !initialized || !wallet.publicKey || !tile) return;
 
         (async () => {
             setProcessing(true);
@@ -82,21 +83,32 @@ export default function TileCard(
                     setProcessing(false);
                     return;
                 } else if(mode == 1) {
-                    let toastId = toast.loading(`Minting Solwalla #${tile?.id}...`)
+                    let toastId = toast.loading(`Minting Solwalla #${tile?.id}...`);
+
+                    let imgCid = '';
+                    let metadataCid = '';
 
                     try {
                         const tileId = tile?.id!;
 
-                        const transaction = new Transaction();
+                        const resForImg = await axios.post("/api/image/upload", {
+                            image: defaultBase64
+                        });
 
-                        const imgCid = await uploadDefaultImage();
+                        imgCid = resForImg.data;
 
                         if(!imgCid.length) {
                             throw "Image Uploading Failed";
                         }
 
                         const imgUri = `${process.env.NEXT_PUBLIC_PINATA_GATEWAY}${imgCid}`;
-                        const metadataCid = await uploadMetadata(imgUri, tile);
+                        const metadataJson = await getMetadataJson(imgUri, tile);
+
+                        const resForMetadata = await axios.post("/api/metadata/upload", {
+                            metadata: metadataJson
+                        });
+
+                        metadataCid = resForMetadata.data;
 
                         if(!metadataCid.length) {
                             throw "Image Uploading Failed";
@@ -119,6 +131,8 @@ export default function TileCard(
                             mint,
                             wallet.publicKey!
                         );
+
+                        const transaction = new Transaction();
 
                         transaction.add(
                             anchor.web3.SystemProgram.createAccount({
@@ -149,10 +163,10 @@ export default function TileCard(
                         transaction.add(
                             await program.methods.mintTile(
                                 tileId,
-                                `Solwalla #${tileId}`,
-                                `Solwalla #${tileId}`,
                                 metadataUri,
-                                imgUri,
+                                metadataCid,
+                                imgCid,
+                                `Solwalla #${tileId}`,
                                 "-",
                                 "-"
                             )
@@ -174,8 +188,20 @@ export default function TileCard(
                                 })
                                 .instruction()
                         );
-                        
+
                         await program.provider.sendAndConfirm(transaction, [mintKeypair]);
+                        
+                        await axios.post("/api/tile/update", {
+                            tileId: tileId,
+                            imageCid: imgCid,
+                            metadataCid: metadataCid,
+                            nftAddress: mint.toString(),
+                            metaName: tile.name,
+                            metaLink: tile.link,
+                            metaDescription: tile.description,
+                            saleOwner: '',
+                            salePrice: 0
+                        });
 
                         toast.update(toastId, {
                             render: 'Minted Successfully',
@@ -184,9 +210,23 @@ export default function TileCard(
                             autoClose: 5000,
                             closeOnClick: true
                         });
+
+                        getOwnedNfts();
                     } catch(error) {
                         console.log(error);
                         setProcessing(false);
+
+                        if(imgCid) {
+                            await axios.post("/api/image/remove", {
+                                cid: imgCid
+                            });
+                        }
+
+                        if(metadataCid) {
+                            await axios.post("/api/metadata/remove", {
+                                cid: metadataCid
+                            });
+                        }
 
                         toast.update(toastId, {
                             render: 'Minting Failed',
@@ -251,6 +291,14 @@ export default function TileCard(
                                 })
                                 .rpc();
                             
+                            await axios.post(
+                                '/api/tile/list', {
+                                    tileId,
+                                    salePrice: price * LAMPORTS_PER_SOL,
+                                    saleOwner: wallet.publicKey?.toString()
+                                }
+                            );                            
+                            
                             toast.update(toastId, {
                                 render: 'Listed Successfully',
                                 type: 'success',
@@ -311,6 +359,12 @@ export default function TileCard(
                                     tokenProgram: TOKEN_PROGRAM_ID,
                                 })
                                 .rpc();
+                            
+                            await axios.post(
+                                '/api/tile/unlist', {
+                                    tileId,
+                                }
+                            );
                             
                             toast.update(toastId, {
                                 render: 'Unlisted Successfully',
@@ -390,6 +444,14 @@ export default function TileCard(
                         )
 
                         await wallet.sendTransaction(transaction, connection);
+
+                        await axios.post(
+                            '/api/tile/unlist', {
+                                tileId,
+                            }
+                        );
+
+                        getOwnedNfts();
                         
                         toast.update(toastId, {
                             render: 'Bought Successfully',
@@ -437,7 +499,7 @@ export default function TileCard(
                     {
                         tile?.nft ? (
                             <Image
-                                className={styles.nft} src={tile.url!}
+                                className={styles.nft} src={tile?.image!}
                                 width={80}
                                 height={80}
                                 alt=''

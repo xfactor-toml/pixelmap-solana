@@ -13,6 +13,10 @@
         height: 16px;
         background: transparent;
         border: 1px solid transparent;
+        margin-top: -15px;
+        margin-left: -1px;
+        z-index: 1;
+        position: relative;
     }
 
     &:hover {
@@ -21,10 +25,24 @@
             border-color: #6E1FCE;
         }
     }
+
+    .img {
+        width: 16px !important;
+        height: 16px !important;
+    }
 }
+
 
 .noborder {
     border: none;
+    width: 16px;
+    height: 16px;
+    
+    .overlay {
+        margin-top: -16px;
+        margin-left: 0px;
+        z-index: 999;
+    }
 }
 
 .mintable {

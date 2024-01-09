@@ -7,14 +7,16 @@ import {
     PublicKey,
     LAMPORTS_PER_SOL,
     SystemProgram,
-    Transaction
+    Transaction,
+    GetProgramAccountsFilter
   } from "@solana/web3.js";
 import { Program, AnchorProvider } from "@project-serum/anchor";
 import { Wallet } from '@project-serum/anchor/dist/cjs/provider';
 import { Metaplex } from "@metaplex-foundation/js";
 import { useWallet } from '@solana/wallet-adapter-react';
-import { isDev, mint_price, network, secret_key, SolwallaIdl, treasury_address, treasury_dev_address } from '../config';
+import { isDev, network, secret_key, SolwallaIdl } from '../config';
 import axios from 'axios';
+import { TOKEN_PROGRAM_ID } from '@solana/spl-token';
 
 interface ContextState {
     tiles: MapTile[],
@@ -22,7 +24,8 @@ interface ContextState {
     solwallaPda: PublicKey,
     program: any,
     findPda: any,
-    connection: any
+    connection: any,
+    getOwnedNfts: any
 }
 
 const AppContext = React.createContext({} as ContextState);
@@ -36,7 +39,7 @@ for(let i = 0; i < 4000; i ++) {
         id: i,
         nft: '',
         name: `Solwalla #${i}`,
-        url: '/static/tile.png',
+        image: '',
         link: '',
         description: '',
         owner: '',
@@ -49,6 +52,7 @@ for(let i = 0; i < 4000; i ++) {
 
 export function AppWrapper({ children }: { children: any }) {
     const [tiles, setTiles] = useState<MapTile[]>(defaultTiles);
+    const [ownedNfts, setOwnedNfts] = useState<string[]>([]);
     const [fetching, setFetching] = useState(false);
     const [flag, setFlag] = useState(false);
     
@@ -56,9 +60,12 @@ export function AppWrapper({ children }: { children: any }) {
     const [solwallaPda, setSolwallaPda] = useState<PublicKey>(PublicKey.default);
 
     const wallet = useWallet();
-    const connection = isDev
-        ? new Connection(clusterApiUrl(network), "processed") // for test
-        : new Connection("", "processed"); // for production
+    
+    const connection = useMemo(() => 
+        isDev 
+            ? new Connection(process.env.NEXT_PUBLIC_DEVNET_RPC!, "processed")
+            : new Connection(process.env.NEXT_PUBLIC_MAINNET_RPC!, "processed")
+        , [isDev]);
 
     const provider =  useMemo(() => new AnchorProvider(connection, wallet as Wallet, { commitment: 'processed' }), [wallet]);
     const program = useMemo(() => new Program(SolwallaIdl, programID, provider), [provider]);
@@ -75,12 +82,54 @@ export function AppWrapper({ children }: { children: any }) {
         return pda;
     }, [program]);
 
+    const getOwnedNfts = useCallback(async () => {
+        if(!(wallet.publicKey)) return;
+
+        const address = wallet.publicKey!.toString();
+
+        const filters:GetProgramAccountsFilter[] = [
+            {
+                dataSize: 165,    //size of account (bytes)
+            },
+            {
+                memcmp: {
+                offset: 32,     //location of our query in the account (bytes)
+                bytes: address,  //our search criteria, a base58 encoded string
+                }            
+            }
+            ];
+
+        const accounts = await connection.getParsedProgramAccounts(
+            TOKEN_PROGRAM_ID,   //SPL Token Program, new PublicKey("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA")
+            {filters: filters}
+        );
+
+        const nfts: string[] = [];
+        accounts.forEach((account, i) => {
+            const parsedAccountInfo:any = account.account.data;
+            const mintAddress:string = parsedAccountInfo["parsed"]["info"]["mint"];
+            const tokenBalance: number = parsedAccountInfo["parsed"]["info"]["tokenAmount"]["uiAmount"];
+
+            if(tokenBalance == 1) {
+                nfts.push(mintAddress);
+            }
+        });
+
+        setOwnedNfts(nfts);
+    }, [wallet, connection]);
+    
     useEffect(() => {
         const pda = findPda();
         setSolwallaPda(pda);
-
-        fetchTiles();
     }, [findPda]);
+
+    useEffect(() => {
+        fetchTiles();
+    }, []);
+
+    useEffect(() => {
+        getOwnedNfts();
+    }, [getOwnedNfts]);
 
     useEffect(() => {
         if(program.programId == PublicKey.default || solwallaPda == PublicKey.default) {
@@ -97,7 +146,7 @@ export function AppWrapper({ children }: { children: any }) {
     useEffect(() => {
         const timer = setTimeout(() => {
             fetchTiles();
-        }, 4000);
+        }, 3000);
         
         return () => clearTimeout(timer);
     }, [flag]);
@@ -107,35 +156,34 @@ export function AppWrapper({ children }: { children: any }) {
             setFetching(true);
             
             const start = Date.now();
-            // console.log('start fetching');
-            const tileInfos = await program.account.tile.all();
+            console.log('start fetching');
+            
+            const res = await axios.get('/api/tile');
+            const tileInfos = res.data;
     
             const oldTiles = tiles.slice();
     
             for(const tileInfo of tileInfos) {
-                const tile: any  = tileInfo.account;
-
-                const id = Number(tile.tileId);
-                const nft = tile?.mintAddress ? tile?.mintAddress.toString() : '';
-                const owner: string = tile?.owner ? tile?.owner.toString() : '';
+                const id = tileInfo.tileId;
+                const nft = tileInfo.nftAddress;
 
                 if(id >= 0 && id < 4000) {
                     oldTiles[id] = {
-                        id: id,
+                        id,
 
                         nft,
+                        image: tileInfo.nftImage.base64Data,
 
-                        name: tile?.name || '',
-                        url: tile?.image ? tile?.image : '',
-                        link: tile?.link || '',
-                        description: tile?.description || '',
+                        name: tileInfo.metaName,
+                        link: tileInfo.metaLink,
+                        description: tileInfo.metaDescription,
 
-                        owner: tile?.owner ? tile?.owner.toString() : '',
-                        price: tile?.price ? tile?.price.toNumber() : 0,
+                        owner: tileInfo.saleOwner,
+                        price: tileInfo.salePrice,
 
                         mintable: nft ? false : true,
-                        saleable: tile?.sale ? true : false,
-                        owned: (wallet?.publicKey && wallet?.publicKey.toString() == owner) ? true : false
+                        saleable: tileInfo.salePrice ? true : false,
+                        owned: tileInfo.saleOwner == wallet.publicKey?.toString() || ownedNfts.includes(nft)
                     }
                 }
             }
@@ -143,7 +191,7 @@ export function AppWrapper({ children }: { children: any }) {
             setTiles(oldTiles);
             setFetching(false);
             setFlag(!flag);
-            // console.log( 'end fetching: ', (Date.now() - start) / 1000);
+            console.log( 'end fetching: ', (Date.now() - start) / 1000);
 
         } catch(error) {
             console.log(error);
@@ -165,8 +213,8 @@ export function AppWrapper({ children }: { children: any }) {
     };
 
     const values = useMemo(() => (
-        { initialized, solwallaPda, tiles, program, findPda, connection }
-    ), [initialized, solwallaPda, tiles, program, findPda, connection]);
+        { initialized, solwallaPda, tiles, program, findPda, connection, getOwnedNfts}
+    ), [initialized, solwallaPda, tiles, program, findPda, connection, getOwnedNfts]);
 
     return (
         <AppContext.Provider value={values}>

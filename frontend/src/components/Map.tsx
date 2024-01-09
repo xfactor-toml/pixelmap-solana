@@ -18,7 +18,7 @@ export default function Map(props: any) {
                     mx: 'auto',
                     px: 1.5,
                     display: 'flex',
-                    justifyContent: 'space-between'
+                    justifyContent: 'space-between',
                 }}
             >
                 <MapToggles
@@ -33,6 +33,7 @@ export default function Map(props: any) {
             <Box
                 sx={{
                     overflow: 'auto',
+                    overflowY: 'hidden',
                     touchAction: 'manipulation'
                 }}
             >
