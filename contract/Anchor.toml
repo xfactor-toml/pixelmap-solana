@@ -2,7 +2,7 @@
 seeds = false
 skip-lint = false
 [programs.devnet]
-contracts = "2cEv6Dsyf3hW644JF53k6KPNcrPaXUPQwkGqPZP8jzxv"
+contracts = "31E3WieJcKApMz9LR7FEapXZrwApxz46j6dmuHXpKMD6"
 
 [registry]
 url = "https://api.apr.dev"
