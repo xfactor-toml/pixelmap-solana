@@ -41,12 +41,13 @@ const Leaderboard: NextPage = () => {
         const userRank: any[] = [];
         const tileCounts: any = {};
         for(const tile of tiles) {
-            const owner = tile?.owner;
+            const owner = tile?.updater;
+            
             if(owner) {
                 tileCounts[owner] = tileCounts[owner] ? tileCounts[owner] + 1 : 1;
             }
         }
-
+        
         for(const [address, count] of Object.entries(tileCounts)) {
             userRank.push([address, count]);
         }

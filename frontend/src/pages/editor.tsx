@@ -167,7 +167,8 @@ const Editor: NextPage = () => {
                         metaLink: tile.link,
                         metaDescription: tile.description,
                         saleOwner: '',
-                        salePrice: 0
+                        salePrice: 0,
+                        updater: wallet.publicKey.toString()
                     });
 
                     toast.update(toastId, {

@@ -47,6 +47,7 @@ for(let i = 0; i < 4000; i ++) {
         mintable: true,
         saleable: false,
         owned: false,
+        updater: ''
     }
 }
 
@@ -183,7 +184,8 @@ export function AppWrapper({ children }: { children: any }) {
 
                         mintable: nft ? false : true,
                         saleable: tileInfo.salePrice ? true : false,
-                        owned: tileInfo.saleOwner == wallet.publicKey?.toString() || ownedNfts.includes(nft)
+                        owned: tileInfo.saleOwner == wallet.publicKey?.toString() || ownedNfts.includes(nft),
+                        updater: tileInfo.updater
                     }
                 }
             }

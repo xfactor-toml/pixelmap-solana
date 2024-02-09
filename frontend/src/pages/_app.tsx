@@ -54,8 +54,8 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
         <ConnectionProvider endpoint={endpoint}>
             <WalletProvider wallets={wallets} autoConnect>
                 <WalletModalProvider>
-                    <Layout>
-                        <AppWrapper>
+                    <AppWrapper>
+                        <Layout>
                             <Component {...pageProps} />
                             <ToastContainer
                                 position="top-right"
@@ -67,8 +67,8 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
                                 pauseOnHover
                                 theme="colored"
                             />
-                        </AppWrapper>
-                    </Layout>
+                        </Layout>
+                    </AppWrapper>
                 </WalletModalProvider>
             </WalletProvider>
         </ConnectionProvider>

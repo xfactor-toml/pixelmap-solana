@@ -17,4 +17,6 @@ export interface MapTile {
     mintable?: Boolean;
     saleable?: Boolean;
     owned?: Boolean;
+
+    updater?: string;
 }
