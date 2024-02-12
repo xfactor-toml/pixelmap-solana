@@ -512,16 +512,18 @@ export default function TileCard(
                 </div>
                 <div className={styles.infos}>
                     <div className={styles.info}>
-                        <span>
-                            Owner: {' '}
-                            {
-                                tile?.owner ? (
-                                    <a className='hover:text-blue-400' href={`${solscanAddress(tile.owner)}`} target='_blank' rel='noreferrer'>
-                                        {shortenAddress(tile.owner)}
-                                    </a>
-                                ) : '-' 
-                            }
-                        </span>
+                        {
+                            <span>
+                                Owner: {' '}
+                                {
+                                    tile?.updater ? (
+                                        <a className='hover:text-blue-400' href={`${solscanAddress(tile.owner)}`} target='_blank' rel='noreferrer'>
+                                            {shortenAddress(tile.updater)}
+                                        </a>
+                                    ) : '-' 
+                                }
+                            </span>
+                        }
                     </div>
                     <div className={styles.info}>
                         <span>
