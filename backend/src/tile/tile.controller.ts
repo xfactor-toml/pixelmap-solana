@@ -26,7 +26,8 @@ export class TileController {
             metaLink,
             metaDescription,
             saleOwner,
-            salePrice
+            salePrice,
+            updater
         } = req.body;
 
         const existingImage = await this.imageService.findByCid(imageCid);
@@ -44,7 +45,8 @@ export class TileController {
                 saleOwner,
                 salePrice,
                 nftImage: existingImage.id,
-                nftMetadata: existingMetadata.id
+                nftMetadata: existingMetadata.id,
+                updater
             };
 
             

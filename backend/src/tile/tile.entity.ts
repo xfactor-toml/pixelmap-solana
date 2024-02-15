@@ -41,4 +41,7 @@ export class Tile {
 
     @Column()
     salePrice: number;
+
+    @Column()
+    updater: string;
 }
