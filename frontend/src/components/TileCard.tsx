@@ -517,7 +517,7 @@ export default function TileCard(
                                 Owner: {' '}
                                 {
                                     tile?.updater ? (
-                                        <a className='hover:text-blue-400' href={`${solscanAddress(tile.owner)}`} target='_blank' rel='noreferrer'>
+                                        <a className='hover:text-blue-400' href={`${solscanAddress(tile.updater)}`} target='_blank' rel='noreferrer'>
                                             {shortenAddress(tile.updater)}
                                         </a>
                                     ) : '-' 
