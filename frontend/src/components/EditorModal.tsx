@@ -187,7 +187,7 @@ export default function EditorModal(
                         aria-haspopup="true"
                         onClick={handleClose}
                         color="inherit"
-                        className='absolute right-1 top-1'
+                        className='!absolute right-1 top-1'
                     >
                         <HighlightOffIcon sx={{ color: 'black' }} />
                     </IconButton>
