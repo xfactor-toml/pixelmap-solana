@@ -30,7 +30,7 @@ export default class MyDocument extends Document {
                     <meta name="twitter:title" content="Solwalla" />
                     <meta
                     name="twitter:description"
-                    content="Leaderboard for Influencers on Solana"
+                    content="Solana’s community curated NFT Mural/Billboard"
                     />
                     <meta name="twitter:image" content="/static/logo.png" />
 
