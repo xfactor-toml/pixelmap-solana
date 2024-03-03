@@ -12,6 +12,7 @@ body {
   margin: 0;
   /* background-color: #000; */
   font-family: 'Audiowide' !important;
+  overflow: auto !important;
 }
 
 a {
